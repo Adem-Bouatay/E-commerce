@@ -166,7 +166,7 @@ const Button = styled.button`
 const Cart = () => {
   const cart = useSelector((state) => state.cart);
   const [stripeToken, setStripeToken] = useState(null);
-  const history = useNavigate();
+  const navigate = useNavigate();
 
   const onToken = (token) => {
     setStripeToken(token);
@@ -177,15 +177,16 @@ const Cart = () => {
       try {
         const res = await userRequest.post("/checkout/payment", {
           tokenId: stripeToken.id,
-          amount: 500,
+          amount: cart.total * 100,
         });
-        history.push("/success", {
+        navigate("/success", {
           stripeData: res.data,
           products: cart, });
-      } catch {}
-    };
-    stripeToken && makeRequest();
-  }, [stripeToken, cart.total, history]);
+      } catch (error) {
+        console.error('Error making request:', error);
+      }};
+    stripeToken && cart.total>=1 && makeRequest();
+  }, [stripeToken, cart.total, navigate, cart]);
   return (
     <Container>
       <Navbar />

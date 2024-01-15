@@ -1,23 +1,18 @@
 import './App.css';
-import SearchIcon from '@mui/icons-material/Search';
 import Home from './pages/Home';
 import ProductList from './pages/ProductList';
 import Product from './pages/Product';
 import Register from './pages/Register';
 import Login from './pages/Login';
 import Cart from './pages/Cart';
-
-import { BrowserRouter as Router, Routes, Route ,Navigate} from 'react-router-dom';
-import { redirect } from "react-router-dom";
-
+import Success from './pages/Success';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 
 function App() {
   return (
    
     <Router>
-       
-       
         <Routes>
           <Route path="/" element={<Home />} />
         </Routes>
@@ -29,6 +24,9 @@ function App() {
         </Routes>
         <Routes>
           <Route path="/cart" element={<Cart />} />
+        </Routes>
+        <Routes>
+          <Route path="/success" element={<Success />} />
         </Routes>
         <Routes>
           <Route path="/register"  element={<Register />} />
