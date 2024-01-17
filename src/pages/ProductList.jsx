@@ -2,10 +2,12 @@ import styled from "styled-components";
 import Navbar from "../components/Navbar";
 import Announcement from "../components/Announcement";
 import Products from "../components/Products";
-import Newsletter from "../components/Newsletter";
 import Footer from "../components/Footer";
+import { categories } from "../data";
 import { useLocation } from "react-router-dom";
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+
 
 
 const Container = styled.div``;
@@ -39,19 +41,42 @@ const Select = styled.select`
 const Option = styled.option``;
 
 const ProductList = () => {
-  const location =useLocation();
+  const location = useLocation();
+  const navigate = useNavigate();
   const cat= location.pathname.split("/")[2];
   const [filters,setFilters] = useState({});
-  const [sort,setSort] = useState("Plus recent");
+  const [sort, setSort] = useState("newest");
 
-  const handleFilters= (e) => {
+  const ScrollToTop = () => {
+    useEffect(() => {
+      window.scrollTo(0, 0);
+    }, []);
+    return null;
+  }
+
+  const handleFilters = (e) => {
     const value = e.target.value;
     setFilters({
       ...filters,
       [e.target.name]: value,
     });
   }
-  
+  const checkLocation = () =>{
+    let found = false;
+    for (var i = 0; i < categories.length; i++) {
+      if (categories[i].cat === cat) {
+        found = true;
+        break;
+      }
+    }
+    return found;
+  }
+  // Goes to the Error page if the category is not found
+  useEffect(() => {
+    if (!checkLocation()) {
+      navigate("/404");
+    }
+  }, [navigate]);
  
   return (
     <Container>
@@ -61,16 +86,16 @@ const ProductList = () => {
       <FilterContainer>
         <Filter>
           <FilterText>Filtrer les Produits :</FilterText>
-          <Select name="color" onChange={handleFilters} >
+          <Select name="brand" onChange={handleFilters} >
             <Option disabled >
-              Couleur
+              Marque
             </Option>
-            <Option>Blanc</Option>
-            <Option>Noir</Option>
-            <Option>Rouge</Option>
-            <Option>Bleu</Option>
-            <Option>Jaune</Option>
-            <Option>Vert</Option>
+            <Option value="nike">NIKE</Option>
+            <Option value="adidas">ADIDAS</Option>
+            <Option value="puma">PUMA</Option>
+            <Option value="kappa">KAPPA</Option>
+            <Option value="umbro">UMBRO</Option>
+            <Option value="nb">NB</Option>
           </Select>
           <Select name="size"  onChange={handleFilters}>
             <Option disabled >
@@ -86,15 +111,15 @@ const ProductList = () => {
         <Filter>
           <FilterText>Trier les produits :</FilterText>
           <Select onChange={(e) => setSort(e.target.value) } >
-            <Option value="new">Plus recent</Option>
+            <Option value="newest">Plus recent</Option>
             <Option value="asc">Prix (croissant)</Option>
             <Option value="dsc">Prix (décroissant)</Option>
           </Select>
         </Filter>
       </FilterContainer>
       <Products cat={cat} filters={filters} sort= {sort}/>
-      <Newsletter />
       <Footer />
+      <ScrollToTop />
     </Container>
   );
 };

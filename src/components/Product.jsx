@@ -1,11 +1,15 @@
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-  import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-  import SearchIcon from '@mui/icons-material/Search';
-
-  import styled from "styled-components";
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import SearchIcon from '@mui/icons-material/Search';
+import styled from "styled-components";
 import { Link } from 'react-router-dom';
+
+const StyledLink = styled(Link)`
+    text-decoration: none;
+    color: black;
+`;
   
-  const Info = styled.div`
+const Info = styled.div`
     opacity: 0;
     width: 100%;
     height: 100%;
@@ -19,7 +23,7 @@ import { Link } from 'react-router-dom';
     justify-content: center;
     transition: all 0.5s ease;
     cursor: pointer;
-  `;
+`;
   
   const Container = styled.div`
     flex: 1;
@@ -76,9 +80,9 @@ import { Link } from 'react-router-dom';
             <ShoppingCartIcon />
           </Icon>
           <Icon>
-            <Link to={`/product/${item._id}`}>
+            <StyledLink to={`/product/${item._id}`}>
               <SearchIcon  />
-            </Link>
+            </StyledLink>
           </Icon>
           <Icon>
             <FavoriteBorderIcon />

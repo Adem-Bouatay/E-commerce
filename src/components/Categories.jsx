@@ -18,7 +18,7 @@ const Title = styled.h1`
 const Categories = () => {
   return (
     <div>
-      <Title>Nos CATEGORIES:</Title>
+      <Title>NOS CATEGORIES:</Title>
       <Container>
         {categories.map((item) => (
           <CategoryItem item={item} key={item.id} />

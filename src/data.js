@@ -33,7 +33,7 @@ export const sliderItems = [
       id: 2,
       img: "https://i.pinimg.com/564x/b7/96/f8/b796f84d2e15c93f397cc25fbd7c2f64.jpg",
       title: "CRAMPONS",
-      cat:"crapon",
+      cat:"crampon",
     },
     {
       id: 3,

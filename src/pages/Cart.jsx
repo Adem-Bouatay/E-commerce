@@ -9,6 +9,8 @@ import { useEffect, useState } from "react";
 import { userRequest } from "../requestMethods";
 import { useNavigate } from "react-router";
 import { useSelector } from "react-redux";
+import { decCart, incCart, reset } from "../redux/cartRedux";
+import { useDispatch } from "react-redux";
 
 
 const KEY = process.env.REACT_APP_STRIPE;
@@ -55,8 +57,6 @@ const TopText = styled.span`
 const Bottom = styled.div`
   display: flex;
   justify-content: space-between;
-  
-
 `;
 
 const Info = styled.div`
@@ -167,7 +167,7 @@ const Cart = () => {
   const cart = useSelector((state) => state.cart);
   const [stripeToken, setStripeToken] = useState(null);
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   const onToken = (token) => {
     setStripeToken(token);
   };
@@ -183,10 +183,23 @@ const Cart = () => {
           stripeData: res.data,
           products: cart, });
       } catch (error) {
-        console.error('Error making request:', error);
       }};
     stripeToken && cart.total>=1 && makeRequest();
   }, [stripeToken, cart.total, navigate, cart]);
+
+  const handleClick = (type,product) => {
+    if (type === "dec") {
+
+      dispatch(decCart(product));
+    } else {
+
+      dispatch(incCart(product));
+    }
+  };
+  const handleReset = () => {
+    dispatch(reset());
+    navigate('/');
+  }
   return (
     <Container>
       <Navbar />
@@ -194,12 +207,23 @@ const Cart = () => {
       <Wrapper>
         <Title>TON PANIER</Title>
         <Top>
-          <TopButton>POURSUIVRE VOS ACHATS</TopButton>
+          <TopButton onClick={() => navigate('/')}>POURSUIVRE VOS ACHATS</TopButton>
           <TopTexts>
-            <TopText>Panier (2)</TopText>
+            <TopText>Panier ({cart.quantity})</TopText>
             <TopText>Liste de souhaits (0)</TopText>
           </TopTexts>
-          <TopButton type="filled">PAYER MAINTENANT</TopButton>
+          <StripeCheckout
+            name="FOOTKITS"
+            image="https://avatars.githubusercontent.com/u/1486366?v=4"
+            billingAddress
+            shippingAddress
+            description={`Le total est ${cart.total} TND`}
+            amount={cart.total * 100}
+            token={onToken}
+            stripeKey={KEY}
+          >
+            <Button>PAYER MAINTENANT</Button>
+          </StripeCheckout>
         </Top>
         <Bottom>
         <Info>
@@ -222,9 +246,9 @@ const Cart = () => {
                 </ProductDetail>
                 <PriceDetail>
                   <ProductAmountContainer>
-                    <Add />
+                    <Add onClick={() => handleClick("inc", product )} />
                     <ProductAmount>{product.quantity}</ProductAmount>
-                    <Remove />
+                    <Remove onClick={() => handleClick("dec", product )} />
                   </ProductAmountContainer>
                   <ProductPrice>
                     {product.price * product.quantity} TND
@@ -238,32 +262,32 @@ const Cart = () => {
             <SummaryTitle>VOTRE COMMANDE</SummaryTitle>
             <SummaryItem>
               <SummaryItemText>Montant total</SummaryItemText>
-              <SummaryItemPrice>{cart.total}` TND</SummaryItemPrice>
+              <SummaryItemPrice>{cart.total} TND</SummaryItemPrice>
             </SummaryItem>
             <SummaryItem>
               <SummaryItemText>Frais de livraison</SummaryItemText>
-              <SummaryItemPrice>7 dt</SummaryItemPrice>
+              <SummaryItemPrice>{cart.frais} TND</SummaryItemPrice>
             </SummaryItem>
             <SummaryItem>
               <SummaryItemText>Remise sur la livraison</SummaryItemText>
-              <SummaryItemPrice>-7 dt</SummaryItemPrice>
+              <SummaryItemPrice>{cart.total >= 100 ? -cart.frais + "TND" : 0 + "TND"}</SummaryItemPrice>
             </SummaryItem>
             <SummaryItem type="total">
               <SummaryItemText>Total</SummaryItemText>
               <SummaryItemPrice>{cart.total} TND</SummaryItemPrice>
             </SummaryItem>
-            <Button>PAYER MAINTENANT</Button>
+            <Button onClick={() => handleReset()}>ANNULER</Button>
             <StripeCheckout
               name="FOOTKITS"
               image="https://avatars.githubusercontent.com/u/1486366?v=4"
               billingAddress
               shippingAddress
               description={`Le total est ${cart.total} TND`}
-              amount={cart.total * 100}
+              amount={cart.total * 100 + cart.total <= 100 ? cart.frais * 100 : 0}
               token={onToken}
               stripeKey={KEY}
             >
-              <Button>CHECKOUT NOW</Button>
+              <Button>PAYER MAINTENANT</Button>
             </StripeCheckout>
           </Summary>
         </Bottom>

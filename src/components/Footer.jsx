@@ -7,10 +7,16 @@
   import RoomIcon from '@mui/icons-material/Room';
   import TwitterIcon from '@mui/icons-material/Twitter';
   import LinkedInIcon from '@mui/icons-material/LinkedIn';
+  import { Link } from "react-router-dom";
 
 
   import styled from "styled-components";
   
+  const StyledLink = styled(Link)`
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+  `;
   
   const Container = styled.div`
     display: flex;
@@ -121,16 +127,13 @@
         <Center>
           <Title>Liens Utiles</Title>
           <List>
-            <ListItem>Accueil</ListItem>
-            <ListItem>Mon Compte</ListItem>
-            <ListItem>Maillots</ListItem>
-            <ListItem>Panier</ListItem>
-            <ListItem>Crampons</ListItem>
-            <ListItem>Suivi de commande</ListItem>
-            <ListItem>Accessoires</ListItem>
-            <ListItem>Conditions générales</ListItem>
-            <ListItem>Favoris</ListItem>
-            <ListItem>Politique de confidentialité</ListItem>
+              <ListItem><StyledLink to="/">Accueil</StyledLink></ListItem>
+              <ListItem><StyledLink to="/products/t-shirt">Maillots</StyledLink></ListItem>
+              <ListItem><StyledLink to="/products/crampon">Crampons</StyledLink></ListItem>
+              <ListItem><StyledLink to="/products/accessoire">Accessoires</StyledLink></ListItem>
+              <ListItem><StyledLink to="/politics">Conditions générales</StyledLink></ListItem>
+              <ListItem><StyledLink to="/favorite">Favoris</StyledLink></ListItem>
+              <ListItem><StyledLink to="/suivi">Suivi de commande</StyledLink></ListItem>
           </List>
         </Center>
         <Right>

@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
-import { popularProducts } from "../data";
 import Product from "./Product";
 import axios from "axios"
 
