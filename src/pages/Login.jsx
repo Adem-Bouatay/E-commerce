@@ -1,7 +1,10 @@
 import styled from "styled-components";
+import CachedIcon from '@mui/icons-material/Cached';
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../redux/apiCalls";
 import { useState } from "react";
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 const Container = styled.div`
   width: 100vw;
@@ -40,17 +43,44 @@ const Input = styled.input`
   min-width: 40%;
   margin: 10px 0;
   padding: 10px;
+  font-size: 20px
+`;
+
+const Password = styled.input`
+  flex: 1;
+  min-width: 100%;
+  margin: 10px 0;
+  padding: 10px;
+  font-size: 20px;
+  font-weight: normal;
+  border: 1px solid black;
+`;
+
+const PassContainer = styled.div`
+  position: relative;
+  width: 100%;
+`;
+
+const PassSpan = styled.span`
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+  font-size: 20px;
+  font-weight: normal;
+  color: grey;
+  cursor: pointer;
 `;
 
 const Button = styled.button`
-  width: 40%;
+  width: 60%;
   border: none;
-  padding: 15px 20px;
+  padding: 10px;
   background-color: teal;
   color: white;
   cursor: pointer;
   margin-bottom: 10px;
-  margin-Left : 30% ;
+  margin-top: 10px;
   &:disabled {
     background-color: black;
     border: 1px solid black;
@@ -59,10 +89,24 @@ const Button = styled.button`
 `;
 
 const Link = styled.a`
-  margin: 5px 0px;
+  color: black;
+  margin: 10px 0px;
   font-size: 12px;
-  text-decoration: underline;
+  text-decoration: none;
+  font-weight: 500;
   cursor: pointer;
+`;
+
+const LoadIcon = styled(CachedIcon)`
+  @keyframes App-logo-spin {
+    from {
+      transform: rotate(360deg);
+    }
+    to {
+      transform: rotate(0deg);
+    }
+  };
+  animation: App-logo-spin infinite 1s linear;
 `;
 
 const Error = styled.span`
@@ -72,6 +116,7 @@ const Error = styled.span`
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [show, setShow] = useState(false);
   const dispatch = useDispatch();
   const { isFetching, error } = useSelector((state) => state.user);
 
@@ -79,6 +124,14 @@ const Login = () => {
     e.preventDefault();
     login(dispatch, { username, password });
   };
+  
+  const handlePass = (e) => {
+    setPassword(e.target.value);
+    e.target.style.fontSize = "20px";
+    e.target.style.fontWeight = "600";
+    e.target.style.fontFamily = "arial"
+  }
+
   return (
     <Container>
       <Wrapper>
@@ -88,17 +141,24 @@ const Login = () => {
             placeholder="Nom d'utilisateur"
             onChange={(e) => setUsername(e.target.value)}
           />
-          <Input
-            placeholder="Mot de passe"
-            type="password"
-            onChange={(e) => setPassword(e.target.value)}
-          />
+          <PassContainer >
+            <Password type={show ? "text" : "password"} 
+                      placeholder="Mot de passe" 
+                      aria-describedby="basic-addon1"  
+                      onChange={handlePass}
+            />
+            <PassSpan class="input-group-text" id="basic-addon1" onClick={() => setShow(!show)}>
+              {show?<VisibilityOffIcon/>:<VisibilityIcon/>}
+            </PassSpan>
+          </PassContainer>
+          <center>
           <Button onClick={handleClick} disabled={isFetching}>
-            SE CONNECTER
+            {isFetching?<LoadIcon/>:"SE CONNECTER"}
           </Button>
-          {error && <Error>Something went wrong...</Error>}
+          </center>
+          {error && <Error>Something went wrong ...</Error>}
           <Link>MOT DE PASSE OUBLIÉ ?</Link>
-          <Link>CRÉER UN NOUVEAU COMPTE</Link>
+          <Link href="/register">CRÉER UN NOUVEAU COMPTE</Link>
         </Form>
       </Wrapper>
     </Container>

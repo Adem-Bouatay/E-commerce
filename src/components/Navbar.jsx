@@ -7,25 +7,31 @@ import { Badge } from '@mui/material';
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import image1 from '../IMG/logo.png';
+import Dropdown from 'react-bootstrap/Dropdown';
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { logout } from "../redux/userRedux";
 
 const Img = styled.img`
   height: 30%;
   width: 40%;
-  
 `;
-
 
 const StyledLink = styled(Link)`
   text-decoration: none;
+  color: black;
   cursor: pointer;
 `;
 
 const Container = styled.div`
   height: 70px;
+  display: flex;
+  align-items: center;
 `;
 
 const Wrapper = styled.div`
   padding: 10px 20px;
+  width: 100%;
   margin-button: 20px;
   display: flex;
   align-items: center;
@@ -71,45 +77,66 @@ const Right = styled.div`
 `;
 
 const MenuItem = styled.div`
-  font-size: 14px;
+  dis
+  font-size: 15px;
   cursor: pointer;
   margin-left: 25px;
+  margin-right: 25px;
 `;
 
 const Account = styled.div `
-  margin-right: 20px;
+  margin-right: 10px;
 `;
-
 
 const Navbar = () => {
   const quantity = useSelector(state=>state.cart.quantity)
-  const user = useSelector((state)=>state.user.currentUser);
+  const user = useSelector((state) => state.user);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dispatch = useDispatch();
+
+  const disconnect = () => {
+    dispatch(logout());
+  }
 
   const Login = () => {
-    if(user !== null){
+    if(user.currentUser !== null){
       return (
         <Account>
-          <StyledLink to="/">
+          <Dropdown onToggle={(isOpen) => setDropdownOpen(isOpen)}>
+            <Dropdown.Toggle
+              variant="text-dark"
+              id="dropdown-basic"
+              size="lg"
+              bsPrefix
+              className="btn-icon-only"
+              style={{ borderColor: dropdownOpen ? 'transparent' : 'transparent', color: dropdownOpen ? 'black' : 'teal' }}
+            >
             <AccountIcon style={{fontSize:35}}/>
-          </StyledLink>
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              <Dropdown.Item disabled>{user.currentUser.username}</Dropdown.Item>
+              <Dropdown.Divider />
+              <Dropdown.Item href="/" onClick={disconnect}>Se Déconnecter</Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
         </Account>
       )
     }
     else{
       return (
-        <Account>
+        <>
           <StyledLink to="/register">
             <MenuItem>S'INSCRIRE</MenuItem>
           </StyledLink>
           <StyledLink to="/login">
             <MenuItem>SE CONNECTER</MenuItem>
           </StyledLink>
-        </Account>
+        </>
     )}
   }
 
   return (
-    <Container>
+    <Container className='shadow-sm'>
       <Wrapper>
         <Left>
           <StyledLink to={`/`}>
@@ -127,7 +154,7 @@ const Navbar = () => {
           <StyledLink to="/cart">
           <MenuItem>
             <Badge badgeContent={quantity} color="primary">
-              <ShoppingCartIcon style={{fontSize:35}} />
+              <ShoppingCartIcon style={{fontSize:35,color:"teal"}} />
             </Badge>
           </MenuItem>
           </StyledLink>

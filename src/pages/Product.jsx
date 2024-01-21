@@ -11,7 +11,9 @@ import { publicRequest } from "../requestMethods";
 import { addProduct } from "../redux/cartRedux";
 import { useDispatch } from "react-redux";
 
-const Container = styled.div``;
+const Container = styled.div`
+  font-weight : 1000;  
+`;
 
 const Wrapper = styled.div`
   padding: 50px;
@@ -63,7 +65,7 @@ const Filter = styled.div`
 
 const FilterTitle = styled.span`
   font-size: 20px;
-  font-weight: 200;
+  font-weight: 500;
 `;
 
 const FilterColor = styled.div`
@@ -76,11 +78,16 @@ const FilterColor = styled.div`
   border: ${(props) => (props.isSelected ? "2px solid #6e6e6e" : "none")};
 `;
 
-const FilterSize = styled.select`
+const FilterSize = styled.div`
+  display: flex;
+  justify-content: space-between;
   margin-left: 10px;
   padding: 5px;
 `;
 
+const FilterButton = styled.div`
+  margin-left: 5px;
+`;
 const FilterSizeOption = styled.option``;
 
 const AddContainer = styled.div`
@@ -120,6 +127,7 @@ const Button = styled.button`
   }
 `;
 
+
 const Product = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -157,9 +165,12 @@ const Product = () => {
   };
 
   const handleClick = () => {
-    dispatch(
-      addProduct({ ...product, quantity, color, size })
-    );
+    if (size !== "")
+      dispatch(
+        addProduct({ ...product, quantity, color, size })
+      );
+    else 
+      alert("Veuillez choisir une taille");
   };
   
   return (
@@ -177,7 +188,7 @@ const Product = () => {
           <FilterContainer>
             <Filter>
               <FilterTitle>Color</FilterTitle>
-              {product.color?.map((c) => (
+              {/*product.color?.map((c) => (
                   <FilterColor
                     color={c}
                     key={c}
@@ -185,13 +196,22 @@ const Product = () => {
                     onClick={() => setColor(color === c ? "" : c)
               }
               />
-              ))}
+              ))*/}
             </Filter>
             <Filter>
-              <FilterTitle>Size</FilterTitle>
-              <FilterSize onChange={(e) => setSize(e.target.value)}>
+              <FilterTitle>Choisir la taille:</FilterTitle>
+              <FilterSize class="btn-group" role="group" aria-label="Basic radio toggle button group">
                 {product.size?.map((s) => (
-                  <FilterSizeOption key={s}>{s}</FilterSizeOption>
+                  <FilterButton key={s}>
+                  <input 
+                    type="radio" 
+                    className="btn-check" 
+                    name="btnradio" 
+                    id={s} 
+                    onChange={() => setSize(s)}
+                  />
+                  <label className="btn btn-outline-primary" For={s}>{s}</label>
+                </FilterButton>
                 ))}
               </FilterSize>
             </Filter>

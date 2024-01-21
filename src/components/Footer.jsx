@@ -3,10 +3,8 @@
   import InstagramIcon from '@mui/icons-material/Instagram';
   import MailOutlineIcon from '@mui/icons-material/MailOutline';
   import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
-  import PinterestIcon from '@mui/icons-material/Pinterest';
   import RoomIcon from '@mui/icons-material/Room';
   import TwitterIcon from '@mui/icons-material/Twitter';
-  import LinkedInIcon from '@mui/icons-material/LinkedIn';
   import { Link } from "react-router-dom";
 
 
@@ -19,9 +17,8 @@
   `;
   
   const Container = styled.div`
+    background-color: #FCFCFC;
     display: flex;
-    margin-top: 70px;
-   
   `;
   
   const Left = styled.div`
@@ -81,17 +78,14 @@
   
   const Right = styled.div`
     flex: 1;
-    padding: 20px;
+    padding: 10px;
     height:100%;
-   
-  
   `;
   
   const ContactItem = styled.div`
     margin-bottom: 20px;
     display: flex;
     align-items: center;
-    margin-left: 120px
   `;
   
   const Payment = styled.img`
@@ -100,7 +94,7 @@
   
   const Footer = () => {
     return (
-      <Container>
+      <Container className='shadow-sm'>
         <Left>
           <Logo>FOOTKITS.</Logo>
           <Desc>
@@ -115,12 +109,6 @@
             </SocialIcon>
             <SocialIcon color="55ACEE">
               <TwitterIcon />
-            </SocialIcon>
-            <SocialIcon color="E60023">
-              <PinterestIcon />
-            </SocialIcon>
-            <SocialIcon color="0441AC">
-              <LinkedInIcon />
             </SocialIcon>
           </SocialContainer>
         </Left>

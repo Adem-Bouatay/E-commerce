@@ -15,25 +15,17 @@ const cartSlice = createSlice({
       state.total += action.payload.price * action.payload.quantity;
     },
     decCart: (state, action) => {
-      for (let i=0; i < state.products.length; i++){
-        if ( action.payload._id === state.products[i]._id ){
-          state.products[i].quantity -= 1;
-          if ( state.products[i].quantity === 0 )
-            state.products.splice(i,1);
-            state.quantity -= 1;
-            break;
-        }
+      const index = action.payload[1];
+      state.products[index].quantity -= 1;
+      if ( state.products[index].quantity === 0 ){
+        state.products.splice(index,1);
+        state.quantity = state.products.length;
       }
-      state.total -= action.payload.price;
+      state.total -= action.payload[0];
     },
     incCart: (state, action) => {
-      for (let i=0; i < state.products.length; i++){
-        if ( action.payload._id === state.products[i]._id ){
-          state.products[i].quantity += 1;
-          break;
-        }
-      }
-      state.total += action.payload.price;
+      state.products[action.payload[1]].quantity += 1;
+      state.total += action.payload[0];
     },
     reset: (state) => {
       state.products= [];
