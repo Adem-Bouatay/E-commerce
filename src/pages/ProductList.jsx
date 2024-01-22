@@ -87,7 +87,7 @@ const ProductList = () => {
         <Filter>
           <FilterText>Filtrer les Produits :</FilterText>
           <Select name="brand" onChange={handleFilters} >
-            <Option disabled >
+            <Option selected disabled hidden >
               Marque
             </Option>
             <Option value="nike">NIKE</Option>
@@ -98,7 +98,7 @@ const ProductList = () => {
             <Option value="nb">NB</Option>
           </Select>
           <Select name="size"  onChange={handleFilters}>
-            <Option disabled >
+            <Option selected disabled hidden >
               Taille
             </Option>
             <Option>XS</Option>
@@ -117,7 +117,7 @@ const ProductList = () => {
           </Select>
         </Filter>
       </FilterContainer>
-      <Products cat={cat} filters={filters} sort= {sort}/>
+      <Products cat={cat} filters={filters} sort= {sort} title="Nos produits"/>
       <Footer />
       <ScrollToTop />
     </Container>

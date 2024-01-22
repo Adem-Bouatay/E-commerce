@@ -10,15 +10,15 @@ const Container = styled.div`
 `;
 
 const Title = styled.h1`
-  font-size: 70px;
+  font-size: 50px;
   margin-top: 20px;
   margin-left:20px;
 `;
 
 const Categories = () => {
   return (
-    <div>
-      <Title>NOS CATEGORIES:</Title>
+    <div style={{marginTop:'50px'}}>
+      <Title>Nos categories:</Title>
       <Container>
         {categories.map((item) => (
           <CategoryItem item={item} key={item.id} />

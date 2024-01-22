@@ -14,7 +14,7 @@ import { useDispatch } from "react-redux";
 import GooglePayButton from '@google-pay/button-react';
 
 
-const KEY = process.env.REACT_APP_STRIPE;
+/*const KEY = process.env.REACT_APP_STRIPE;*/
 
 
 const Container = styled.div``;
@@ -74,6 +74,7 @@ const Product = styled.div`
   border-radius: 8px;
   margin:5px;
   margin-bottom: 12px;
+  padding: 10px;
   box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.15);
 `;
 
@@ -284,7 +285,10 @@ const Cart = () => {
                 shippingAddressRequired: true,
               }}
               onLoadPaymentData={paymentRequest => {
-                  console.log('Success', paymentRequest);
+                  /*console.log('Success', paymentRequest);*/
+                  handleReset();  
+                  navigate('/success');
+                                  
               }}
               existingPaymentMethodRequired='no'
               buttonColor='black'
@@ -324,7 +328,7 @@ const Cart = () => {
                     <ProductId>
                       <b>ID:</b> {product._id}
                     </ProductId>
-                    <ProductColor color={product.color} />
+                    {/*<ProductColor color={product.color} />*/}
                     <ProductSize>
                       <b>Size:</b> {product.size}
                     </ProductSize>

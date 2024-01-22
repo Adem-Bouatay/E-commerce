@@ -4,7 +4,7 @@ import styled from "styled-components";
 import Announcement from "../components/Announcement";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
-import Newsletter from "../components/Newsletter";
+import Recommends from "../components/Recommends";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { publicRequest } from "../requestMethods";
@@ -12,7 +12,7 @@ import { addProduct } from "../redux/cartRedux";
 import { useDispatch } from "react-redux";
 
 const Container = styled.div`
-  font-weight : 1000;  
+  font-weight : 500;  
 `;
 
 const Wrapper = styled.div`
@@ -21,14 +21,20 @@ const Wrapper = styled.div`
 `;
 
 const ImgContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex: 1;
+  width: 50%;
+  height: 50%;
+
 `;
 
 const Image = styled.img`
-  width: 70%;
-  height: 90vh;
+  border-radius: 20px;
+  width: 80%;
+  height: 80%;
   object-fit: cover;
-  
 `;
 
 const InfoContainer = styled.div`
@@ -38,10 +44,11 @@ const InfoContainer = styled.div`
 `;
 
 const Title = styled.h1`
-  font-weight: 200;
+  font-weight: 500;
 `;
 
 const Desc = styled.p`
+  font-size: 20px;
   margin: 20px 0px;
 `;
 
@@ -54,13 +61,11 @@ const FilterContainer = styled.div`
   width: 50%;
   margin: 30px 0px;
   display: flex;
-  justify-content: space-between;
- 
 `;
 
 const Filter = styled.div`
   display: flex;
-  align-items: center;
+  flex-direction: column;
 `;
 
 const FilterTitle = styled.span`
@@ -68,7 +73,7 @@ const FilterTitle = styled.span`
   font-weight: 500;
 `;
 
-const FilterColor = styled.div`
+/*const FilterColor = styled.div`
   width: 20px;
   height: 20px;
   border-radius: 50%;
@@ -76,19 +81,17 @@ const FilterColor = styled.div`
   margin: 0px 5px;
   cursor: pointer;
   border: ${(props) => (props.isSelected ? "2px solid #6e6e6e" : "none")};
-`;
+`;*/
 
 const FilterSize = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-left: 10px;
-  padding: 5px;
+  margin-top: 10px;
 `;
 
 const FilterButton = styled.div`
-  margin-left: 5px;
+
 `;
-const FilterSizeOption = styled.option``;
 
 const AddContainer = styled.div`
   width: 50%;
@@ -172,23 +175,24 @@ const Product = () => {
     else 
       alert("Veuillez choisir une taille");
   };
-  
+  console.log(product.categories[0])
+
   return (
     <Container>
       <Navbar />
       <Announcement />
       <Wrapper>
       <ImgContainer>
-          <Image src={product.img} />
+          <Image  className='shadow-lg' src={product.img} />
       </ImgContainer>
-      <InfoContainer>
+      <InfoContainer className='my-2 mx-2'>
           <Title>{product.title}</Title>
           <Desc>{product.desc}</Desc>
           <Price>{product.price} TND</Price>
           <FilterContainer>
-            <Filter>
+            {/*<Filter>
               <FilterTitle>Color</FilterTitle>
-              {/*product.color?.map((c) => (
+              {product.color?.map((c) => (
                   <FilterColor
                     color={c}
                     key={c}
@@ -196,8 +200,8 @@ const Product = () => {
                     onClick={() => setColor(color === c ? "" : c)
               }
               />
-              ))*/}
-            </Filter>
+              ))}
+            </Filter>*/}
             <Filter>
               <FilterTitle>Choisir la taille:</FilterTitle>
               <FilterSize class="btn-group" role="group" aria-label="Basic radio toggle button group">
@@ -210,7 +214,7 @@ const Product = () => {
                     id={s} 
                     onChange={() => setSize(s)}
                   />
-                  <label className="btn btn-outline-primary" For={s}>{s}</label>
+                  <label className="btn btn-outline-dark py-3 px-4 me-3" For={s}>{s}</label>
                 </FilterButton>
                 ))}
               </FilterSize>
@@ -226,6 +230,7 @@ const Product = () => {
             </AddContainer>
       </InfoContainer>
       </Wrapper>
+      <Recommends brand={product.brand}/>
       <Footer />
       <ScrollToTop />
     </Container>

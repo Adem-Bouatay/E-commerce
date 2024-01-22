@@ -33,7 +33,8 @@ const Info = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #f5fbfd;
+    border-radius: 4px;
+    background-color: #eaeaea5a;
     position: relative;
   
     &:hover ${Info}{

@@ -6,15 +6,20 @@ import styled from "styled-components";
 import { Badge } from '@mui/material';
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import image1 from '../IMG/logo.png';
+import image1 from '../IMG/shirt.png';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { logout } from "../redux/userRedux";
 
 const Img = styled.img`
-  height: 30%;
-  width: 40%;
+  height: 10%;
+  width: 10%;
+`;
+
+const Logo = styled.div`
+  display:flex;
+  align-items: center;
 `;
 
 const StyledLink = styled(Link)`
@@ -32,7 +37,6 @@ const Container = styled.div`
 const Wrapper = styled.div`
   padding: 10px 20px;
   width: 100%;
-  margin-button: 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -77,7 +81,6 @@ const Right = styled.div`
 `;
 
 const MenuItem = styled.div`
-  dis
   font-size: 15px;
   cursor: pointer;
   margin-left: 25px;
@@ -140,7 +143,13 @@ const Navbar = () => {
       <Wrapper>
         <Left>
           <StyledLink to={`/`}>
-            <Img src={image1} alt="Logo" />
+            <Logo>
+              <Img className='ms-3' src={image1} alt="Logo" />
+              <div style={{fontFamily:"Roboto Condensed", color:'teal', marginLeft:"15px",padding:"0"}}>
+              <h5 style={{fontWeight:'800', margin:'0'}}>FOOTKITS</h5>
+              <h5 style={{fontSize:'15px', margin:'0'}}>PORTEZ LA PASSION SUR VOUS</h5>
+              </div>
+            </Logo>
           </StyledLink>
         </Left>
         <Center>

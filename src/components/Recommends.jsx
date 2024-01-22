@@ -16,26 +16,28 @@ const Title = styled.h1`
   margin-left:20px;
 `;
 
-const Products = ({cat, filters,sort,title}) => {
+const Products = ({brand}) => {
   const [products, setProducts] = useState([]);
-  const [filteredProducts, setFilteredProducts] = useState([]);
+  /*const [filteredProducts, setFilteredProducts] = useState([]);*/
 
   useEffect(() => {
     const getProducts = async () => {
       try {
         const res = await axios.get(
-          cat
-            ? `http://localhost:5000/api/products?category=${cat}`
+          brand
+            ? `http://localhost:5000/api/products?brand=${brand}`
             : "http://localhost:5000/api/products"
         );
         setProducts(res.data);
       } catch (err) {}
     };
     getProducts();
-  }, [cat]);
+    console.log(products)
+  }, [brand]);
 
-  useEffect(() => {
-    cat &&
+  /*useEffect(() => {
+    
+    brand &&
       setFilteredProducts(
         products.filter((item) =>
           Object.entries(filters).every(([key, value]) =>
@@ -43,9 +45,9 @@ const Products = ({cat, filters,sort,title}) => {
           )
         )
       );
-  }, [products, cat, filters]);
+  }, [products, brand, filters]);*/
 
-  useEffect(() => {
+  /*useEffect(() => {
     if (sort === "new") {
       setFilteredProducts((prev) =>
         [...prev].sort((a, b) => b.createdAt - a.createdAt)
@@ -59,18 +61,15 @@ const Products = ({cat, filters,sort,title}) => {
         [...prev].sort((a, b) => b.price - a.price)
       );
     }
-  }, [sort]);
-
+  }, [sort]);*/
 
 
   return (
     <div style={{marginTop:'50px'}}>
-        <Title>{title}:</Title>
+        <Title>Recommendations:</Title>
         <Container>
-        {cat
-        ? filteredProducts.map((item) => <Product item={item} key={item.id} />)
-        : products
-            .slice(0, 8)
+        { products
+            .slice(0, 4)
             .map((item) => <Product item={item} key={item.id} />)}
         </Container>
     </div>
