@@ -54,6 +54,7 @@ const ProductList = () => {
     return null;
   }
 
+  //Filtre les produits par marque et taille
   const handleFilters = (e) => {
     const value = e.target.value;
     setFilters({
@@ -61,6 +62,8 @@ const ProductList = () => {
       [e.target.name]: value,
     });
   }
+
+  //Vérifie si la catégorie existe
   const checkLocation = () =>{
     let found = false;
     for (var i = 0; i < categories.length; i++) {
@@ -71,7 +74,7 @@ const ProductList = () => {
     }
     return found;
   }
-  // Goes to the Error page if the category is not found
+  //Redirige vers la page d'erreur si la catégorie n'est pas trouvée
   useEffect(() => {
     if (!checkLocation()) {
       navigate("/404");

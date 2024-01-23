@@ -147,7 +147,7 @@ const Product = () => {
     }, []);
     return null;
   }
-
+  // retourne le produit avec l'id donné
   useEffect(() => {
     const getProduct = async () => {
       try {
@@ -159,6 +159,8 @@ const Product = () => {
     };
     getProduct();
   }, [id]);
+
+  // augmenter ou diminuer la quantité
   const handleQuantity = (type) => {
     if (type === "dec") {
       quantity > 1 && setQuantity(quantity - 1);
@@ -166,7 +168,7 @@ const Product = () => {
       setQuantity(quantity + 1);
     }
   };
-
+  // ajouter le produit à la cart
   const handleClick = () => {
     if (size !== "")
       dispatch(

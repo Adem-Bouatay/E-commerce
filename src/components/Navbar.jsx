@@ -104,7 +104,7 @@ const Navbar = () => {
   const disconnect = () => {
     dispatch(logout());
   }
-
+  //faire appel à la base de données pour récupérer les produits lorsque le recherche change
   useEffect(() => {
     const getProducts = async () => {
       try {
@@ -115,14 +115,15 @@ const Navbar = () => {
     };
     getProducts();
   }, [search])
-
+  //charger les produits cherches dans le dropdown
   const handleChange = (e) => {
     setSearch(e.target.value);
     const filteredArray = products.filter(obj => obj.title.toLowerCase().includes(search.toLowerCase()));
     const resultArray = filteredArray.map(({ title, _id }) => ({ title, _id }));
     setSearched(resultArray);
   }
-
+  /*retourne un dropdown avec le nom de l'utilisateur et un bouton pour se déconnecter lorsque il y a un utilisateur connecté 
+  sinon un bouton pour se connecter et un bouton pour s'inscrire*/
   const Login = () => {
     if(user.currentUser !== null){
       return (
@@ -175,25 +176,26 @@ const Navbar = () => {
           </StyledLink>
         </Left>
         <Center>
-        <Dropdown >
-        <Dropdown.Toggle
-              variant="text-dark"
-              id="dropdown-basic"
-              drop='down-centered'
-              size="lg"
-              bsPrefix
-              className="btn-icon-only"
-              style={{ borderColor: dropdownOpen ? 'transparent' : 'transparent'}}
-            >
-            <SearchContainer style={{width:"140%"}}>
-            <Input placeholder="Rechercher" onChange={handleChange}/>
-            <SearchIcon style={{ color: "gray", fontSize: 16 }} />
-            </SearchContainer>
-            </Dropdown.Toggle>
-            <Dropdown.Menu style={{width:"100%"}}>
-              {searched.map((product) =>  <Dropdown.Item><StyledLink to={`/product/${product._id}`}>{product.title}</StyledLink></Dropdown.Item>)}
-            </Dropdown.Menu>
-          </Dropdown>
+          {/* dropdown de recherche*/}
+          <Dropdown >
+          <Dropdown.Toggle
+                variant="text-dark"
+                id="dropdown-basic"
+                drop='down-centered'
+                size="lg"
+                bsPrefix
+                className="btn-icon-only"
+                style={{ borderColor: dropdownOpen ? 'transparent' : 'transparent'}}
+              >
+              <SearchContainer style={{width:"140%"}}>
+              <Input placeholder="Rechercher" onChange={handleChange}/>
+              <SearchIcon style={{ color: "gray", fontSize: 16 }} />
+              </SearchContainer>
+              </Dropdown.Toggle>
+              <Dropdown.Menu style={{width:"100%"}}>
+                {searched.map((product) =>  <Dropdown.Item><StyledLink to={`/product/${product._id}`}>{product.title}</StyledLink></Dropdown.Item>)}
+              </Dropdown.Menu>
+            </Dropdown>
         </Center>
         <Right>
           { Login() }

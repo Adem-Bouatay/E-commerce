@@ -199,7 +199,7 @@ const Cart = () => {
   const onToken = (token) => {
     setStripeToken(token);
   };
-
+  /*
   useEffect(() => {
     const makeRequest = async () => {
       try {
@@ -213,8 +213,9 @@ const Cart = () => {
       } catch (error) {
       }};
     stripeToken && cart.total>=1 && makeRequest();
-  }, [stripeToken, cart.total, navigate, cart]);
+  }, [stripeToken, cart.total, navigate, cart]);*/
 
+  // incrementer ou decrementer la quantité d'un produit
   const handleClick = (type,index) => {
     if (type === "dec") {
       console.log(cart);
@@ -225,6 +226,8 @@ const Cart = () => {
       dispatch(incCart(index));
     }
   };
+
+  //annuller la commande
   const handleReset = () => {
     dispatch(reset());
     navigate('/');
@@ -247,6 +250,7 @@ const Cart = () => {
     );
   };*/
 
+  // google pay button
   const GoogleCheckOut = () => {
     return (
       <div>  

@@ -20,6 +20,7 @@ const Products = ({cat, filters,sort,title}) => {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
 
+  // s'il y a du categorie, elle retourne les produits de cette categorie sinon toutes les produits
   useEffect(() => {
     const getProducts = async () => {
       try {
@@ -34,6 +35,7 @@ const Products = ({cat, filters,sort,title}) => {
     getProducts();
   }, [cat]);
 
+
   useEffect(() => {
     cat &&
       setFilteredProducts(
@@ -45,6 +47,7 @@ const Products = ({cat, filters,sort,title}) => {
       );
   }, [products, cat, filters]);
 
+  // filtrer les produits selon le prix, la date de creation
   useEffect(() => {
     if (sort === "new") {
       setFilteredProducts((prev) =>

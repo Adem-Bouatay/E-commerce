@@ -3,6 +3,9 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import SearchIcon from '@mui/icons-material/Search';
 import styled from "styled-components";
 import { Link } from 'react-router-dom';
+import { addProduct } from "../redux/cartRedux";
+import { useDispatch } from "react-redux";
+
 
 const StyledLink = styled(Link)`
     text-decoration: none;
@@ -71,14 +74,29 @@ const Info = styled.div`
     }
   `;
   
+
   const Product = ({ item }) => {
+    const dispatch = useDispatch();
+    let {  color, size, ...others} = item;
+    size = size[0];
+    const quantity = 1;
+    
+    // ajoute le produit au panier avec des valeurs par défaut
+    const handleClick = () => {
+      if (size !== "")
+        dispatch(
+          addProduct({ ...others, quantity, color, size })
+        );
+        alert("Produit ajouté au panier")
+    };
+
     return (
       <Container>
         <Circle />
         <Image src={item.img} />
         <Info>
           <Icon>
-            <ShoppingCartIcon />
+            <ShoppingCartIcon onClick={handleClick}/>
           </Icon>
           <Icon>
             <StyledLink to={`/product/${item._id}`}>

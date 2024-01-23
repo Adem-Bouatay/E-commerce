@@ -116,17 +116,21 @@ const Register = () => {
   const dispatch = useDispatch();
   const { isFetching, error } = useSelector((state) => state.user);
 
+  // verifie si le mot de passe et la confirmation sont identiques et si tous les champs sont remplis
   const handleClick = (e) => {
     e.preventDefault();
     if (password !== confirm) {
       setPassword("");
       setConfirm("");
-      alert("Passwords don't match!");
+      alert("Mots de passe non identiques!");
+    } else if (firstname === "" || familyname === "" || username === "" || email === ""){
+      alert("Il faut remplir tous les champs!");
     } else {
       signup(dispatch, { firstname, familyname, username,  email, password });
     }
   };
   
+  // affiche ou cache le mot de passe
   const handlePass = (e) => {
     setPassword(e.target.value);
     e.target.style.fontSize = "20px";
@@ -134,6 +138,7 @@ const Register = () => {
     e.target.style.fontFamily = "arial"
   }
 
+  // affiche ou cache la confirmation du mot de passe
   const handleConfirm = (e) => {
     setConfirm(e.target.value);
     e.target.style.fontSize = "20px";

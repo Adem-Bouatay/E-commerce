@@ -20,6 +20,7 @@ const Products = ({brand}) => {
   const [products, setProducts] = useState([]);
   /*const [filteredProducts, setFilteredProducts] = useState([]);*/
 
+  // retourne les produits de cette marque (brand)
   useEffect(() => {
     const getProducts = async () => {
       try {
