@@ -1,7 +1,7 @@
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import SearchIcon from '@mui/icons-material/Search';
 import AccountIcon from '@mui/icons-material/AccountCircle';
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { Badge } from '@mui/material';
 import { useSelector } from "react-redux";
@@ -11,6 +11,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { logout } from "../redux/userRedux";
+import { publicRequest } from "../requestMethods";
 
 const Img = styled.img`
   height: 10%;
@@ -94,11 +95,32 @@ const Account = styled.div `
 const Navbar = () => {
   const quantity = useSelector(state=>state.cart.quantity)
   const user = useSelector((state) => state.user);
+  const [search, setSearch] = useState('');
+  const [products, setProducts] = useState([]);
+  const [searched, setSearched] = useState([]);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dispatch = useDispatch();
 
   const disconnect = () => {
     dispatch(logout());
+  }
+
+  useEffect(() => {
+    const getProducts = async () => {
+      try {
+        const res = await publicRequest.get("/products/");
+        setProducts(res.data);
+      } catch(err) {      
+      }
+    };
+    getProducts();
+  }, [search])
+
+  const handleChange = (e) => {
+    setSearch(e.target.value);
+    const filteredArray = products.filter(obj => obj.title.toLowerCase().includes(search.toLowerCase()));
+    const resultArray = filteredArray.map(({ title, _id }) => ({ title, _id }));
+    setSearched(resultArray);
   }
 
   const Login = () => {
@@ -153,10 +175,25 @@ const Navbar = () => {
           </StyledLink>
         </Left>
         <Center>
-          <SearchContainer>
-            <Input placeholder="Rechercher" />
+        <Dropdown >
+        <Dropdown.Toggle
+              variant="text-dark"
+              id="dropdown-basic"
+              drop='down-centered'
+              size="lg"
+              bsPrefix
+              className="btn-icon-only"
+              style={{ borderColor: dropdownOpen ? 'transparent' : 'transparent'}}
+            >
+            <SearchContainer style={{width:"140%"}}>
+            <Input placeholder="Rechercher" onChange={handleChange}/>
             <SearchIcon style={{ color: "gray", fontSize: 16 }} />
-          </SearchContainer>
+            </SearchContainer>
+            </Dropdown.Toggle>
+            <Dropdown.Menu style={{width:"100%"}}>
+              {searched.map((product) =>  <Dropdown.Item><StyledLink to={`/product/${product._id}`}>{product.title}</StyledLink></Dropdown.Item>)}
+            </Dropdown.Menu>
+          </Dropdown>
         </Center>
         <Right>
           { Login() }

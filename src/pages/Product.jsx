@@ -175,7 +175,6 @@ const Product = () => {
     else 
       alert("Veuillez choisir une taille");
   };
-  console.log(product.categories[0])
 
   return (
     <Container>
