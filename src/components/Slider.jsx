@@ -1,7 +1,7 @@
 
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-
+import { Link } from 'react-router-dom';
 import { useState } from "react";
 import styled from "styled-components";
 import { sliderItems } from "../data";
@@ -107,7 +107,7 @@ const Slider = () => {
             <InfoContainer>
               <Title>{item.title}</Title>
               <Desc>{item.desc}</Desc>
-              <Button>CONSULTER MAINTENANT</Button>
+              <Link to="/products/t-shirt"><Button>CONSULTER MAINTENANT</Button></Link>
             </InfoContainer>
           </Slide>
         ))}
