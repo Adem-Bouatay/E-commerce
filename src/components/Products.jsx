@@ -2,22 +2,21 @@ import styled from "styled-components";
 import { useEffect, useState } from "react";
 import Product from "./Product";
 import { publicRequest } from "../requestMethods";
-import axios from "axios"
-
+import axios from "axios";
 
 const Container = styled.div`
-    padding: 20px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+  padding: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 `;
 const Title = styled.h1`
   font-size: 50px;
   margin-top: 20px;
-  margin-left:20px;
+  margin-left: 20px;
 `;
 
-const Products = ({cat, filters,sort,title}) => {
+const Products = ({ cat, filters, sort, title }) => {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
 
@@ -25,17 +24,14 @@ const Products = ({cat, filters,sort,title}) => {
   useEffect(() => {
     const getProducts = async () => {
       try {
-        const res = await publicrequest.get(
-          cat
-            ? `/products?category=${cat}`
-            : "/api/products"
+        const res = await publicRequest.get(
+          cat ? `/products?category=${cat}` : "/api/products"
         );
         setProducts(res.data);
       } catch (err) {}
     };
     getProducts();
   }, [cat]);
-
 
   useEffect(() => {
     cat &&
@@ -65,18 +61,18 @@ const Products = ({cat, filters,sort,title}) => {
     }
   }, [sort]);
 
-
-
   return (
-    <div style={{marginTop:'50px'}}>
-        <Title>{title}:</Title>
-        <Container>
+    <div style={{ marginTop: "50px" }}>
+      <Title>{title}:</Title>
+      <Container>
         {cat
-        ? filteredProducts.map((item) => <Product item={item} key={item.id} />)
-        : products
-            .slice(0, 8)
-            .map((item) => <Product item={item} key={item.id} />)}
-        </Container>
+          ? filteredProducts.map((item) => (
+              <Product item={item} key={item.id} />
+            ))
+          : products
+              .slice(0, 8)
+              .map((item) => <Product item={item} key={item.id} />)}
+      </Container>
     </div>
   );
 };
